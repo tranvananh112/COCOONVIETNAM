@@ -105,7 +105,7 @@ export function Header() {
       </header>
 
       {/* Christmas Banner - Chữ chạy */}
-      <div className="w-full py-1 overflow-hidden bg-background">
+      <div className="w-full overflow-hidden bg-background">
         <div className="animate-marquee whitespace-nowrap">
           <span className="font-bold text-lg mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
             Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
