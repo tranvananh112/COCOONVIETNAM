@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react"
+import { ChristmasBanner } from "@/components/christmas-banner"
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="border-t bg-secondary" role="contentinfo">
+      <ChristmasBanner />
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}

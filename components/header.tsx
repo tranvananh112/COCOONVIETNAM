@@ -7,7 +7,6 @@ import { useState } from "react"
 import { useCartStore } from "@/lib/cart-store"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { ChristmasBanner } from "@/components/christmas-banner"
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,7 +21,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <ChristmasBanner />
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">

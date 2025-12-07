@@ -2,19 +2,19 @@
 
 export function ChristmasBanner() {
     return (
-        <div className="w-full bg-gradient-to-r from-red-600 via-green-600 to-red-600 py-2 overflow-hidden">
+        <div className="w-full py-3 overflow-hidden bg-background border-t">
             <div className="animate-marquee whitespace-nowrap">
-                <span className="text-white font-bold text-lg mx-8">
-                    🎄 Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm! 🎅
+                <span className="font-bold text-xl mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
+                    Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
                 </span>
-                <span className="text-white font-bold text-lg mx-8">
-                    🎁 Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm! ⭐
+                <span className="font-bold text-xl mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
+                    Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
                 </span>
-                <span className="text-white font-bold text-lg mx-8">
-                    🎄 Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm! 🎅
+                <span className="font-bold text-xl mx-8 bg-gradient-to-r from-red-600 via-green-600 to-red-600 bg-clip-text text-transparent">
+                    Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
                 </span>
-                <span className="text-white font-bold text-lg mx-8">
-                    🎁 Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm! ⭐
+                <span className="font-bold text-xl mx-8 bg-gradient-to-r from-green-600 via-red-600 to-green-600 bg-clip-text text-transparent">
+                    Mừng Giáng Sinh 2025 - Giảm giá 90% cho tất cả sản phẩm!
                 </span>
             </div>
 
@@ -30,7 +30,7 @@ export function ChristmasBanner() {
 
                 .animate-marquee {
                     display: inline-block;
-                    animation: marquee 20s linear infinite;
+                    animation: marquee 25s linear infinite;
                 }
             `}</style>
         </div>
