@@ -80,6 +80,11 @@ export default function CheckoutPage() {
     setIsProcessing(true)
 
     try {
+      // Check if Supabase is configured
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        throw new Error("Supabase chưa được cấu hình. Vui lòng thêm Environment Variables.")
+      }
+
       const result = await createOrder({
         customerName: customerInfo.name,
         customerPhone: customerInfo.phone,
@@ -116,12 +121,21 @@ export default function CheckoutPage() {
         isPaid,
       })
 
+      toast.success(`Đơn hàng ${result.orderCode} đã được tạo thành công!`)
       setShowQRModal(false)
       setShowSuccessModal(true)
       clearCart()
     } catch (error) {
       console.error("Order error:", error)
-      // Fallback to local storage only
+      const errorMessage = error instanceof Error ? error.message : "Lỗi không xác định"
+
+      // Show error to user
+      toast.error(`Lỗi tạo đơn hàng: ${errorMessage}`)
+
+      // Still save to local storage as fallback
+      const localOrderCode = `LOCAL-${Date.now()}`
+      setOrderCode(localOrderCode)
+
       addOrder({
         items: [...items],
         customer: customerInfo,
@@ -130,6 +144,8 @@ export default function CheckoutPage() {
         paymentMethod,
         isPaid,
       })
+
+      toast.warning("Đơn hàng đã lưu tạm thời. Vui lòng liên hệ admin để xác nhận.")
       setShowQRModal(false)
       setShowSuccessModal(true)
       clearCart()
