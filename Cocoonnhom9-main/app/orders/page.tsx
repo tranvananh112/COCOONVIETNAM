@@ -1,21 +1,17 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
+import { OrderTrackingRealtime } from "@/components/order-tracking-realtime"
 import { useOrderStore, type Order, type OrderStatus } from "@/lib/order-store"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { formatPrice } from "@/lib/products"
-import { Search, Package, Clock, CheckCircle2, Truck, PackageCheck, ShoppingBag, Phone } from "lucide-react"
+import { Clock, CheckCircle2, Truck, PackageCheck, Package } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
-import { Toaster, toast } from "sonner"
+import { Toaster } from "sonner"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const statusConfig: Record<OrderStatus, { label: string; color: string; icon: React.ElementType; step: number }> = {
   pending: { label: "Chờ xử lý", color: "bg-yellow-100 text-yellow-800", icon: Clock, step: 1 },
@@ -44,11 +40,10 @@ function OrderTimeline({ status }: { status: OrderStatus }) {
           <div key={step.status} className="flex flex-1 items-center">
             <div className="flex flex-col items-center">
               <div
-                className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
-                  isActive
+                className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${isActive
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-muted bg-background text-muted-foreground"
-                }`}
+                  }`}
               >
                 <StepIcon className="h-5 w-5" />
               </div>
@@ -66,7 +61,7 @@ function OrderTimeline({ status }: { status: OrderStatus }) {
   )
 }
 
-function OrderCard({ order }: { order: Order }) {
+function LocalOrderCard({ order }: { order: Order }) {
   const StatusIcon = statusConfig[order.status].icon
 
   const formatDate = (dateString: string) => {
@@ -95,7 +90,6 @@ function OrderCard({ order }: { order: Order }) {
         </div>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
-        {/* Status Badge & Timeline */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <Badge className={statusConfig[order.status].color}>
@@ -112,7 +106,6 @@ function OrderCard({ order }: { order: Order }) {
           <OrderTimeline status={order.status} />
         </div>
 
-        {/* Products */}
         <div className="border-t pt-4">
           <h4 className="font-medium mb-3">Sản phẩm đã đặt</h4>
           <div className="space-y-3">
@@ -138,7 +131,6 @@ function OrderCard({ order }: { order: Order }) {
           </div>
         </div>
 
-        {/* Shipping Info */}
         <div className="border-t pt-4">
           <h4 className="font-medium mb-2">Địa chỉ giao hàng</h4>
           <p className="text-sm text-muted-foreground">
@@ -147,7 +139,6 @@ function OrderCard({ order }: { order: Order }) {
           <p className="text-sm text-muted-foreground">{order.customer.address}</p>
         </div>
 
-        {/* Total */}
         <div className="border-t pt-4 flex justify-between items-center">
           <span className="font-semibold">Tổng cộng:</span>
           <span className="text-xl font-bold text-primary">{formatPrice(order.totalPrice)}</span>
@@ -158,30 +149,8 @@ function OrderCard({ order }: { order: Order }) {
 }
 
 export default function OrdersPage() {
-  const { orders, getOrdersByPhone } = useOrderStore()
-  const [phone, setPhone] = useState("")
-  const [searchedOrders, setSearchedOrders] = useState<Order[] | null>(null)
-  const [hasSearched, setHasSearched] = useState(false)
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!phone.trim()) {
-      toast.error("Vui lòng nhập số điện thoại")
-      return
-    }
-    const results = getOrdersByPhone(phone.trim())
-    setSearchedOrders(results)
-    setHasSearched(true)
-    if (results.length === 0) {
-      toast.info("Không tìm thấy đơn hàng nào với số điện thoại này")
-    }
-  }
-
-  // Sort by date (newest first)
-  const displayOrders =
-    searchedOrders !== null
-      ? [...searchedOrders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      : [...orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const { orders } = useOrderStore()
+  const displayOrders = [...orders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -190,70 +159,37 @@ export default function OrdersPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h1 className="font-serif text-3xl font-bold text-foreground mb-2">Theo dõi đơn hàng</h1>
-            <p className="text-muted-foreground mb-8">Nhập số điện thoại để tra cứu đơn hàng của bạn</p>
+            <p className="text-muted-foreground mb-8">
+              Xem đơn hàng đã lưu hoặc tra cứu theo số điện thoại
+            </p>
 
-            {/* Search Form */}
-            <Card className="mb-8">
-              <CardContent className="p-6">
-                <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1">
-                    <Label htmlFor="phone" className="sr-only">
-                      Số điện thoại
-                    </Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="Nhập số điện thoại đặt hàng"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="pl-10"
-                      />
-                    </div>
+            <Tabs defaultValue="supabase" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="supabase">Tra cứu theo SĐT</TabsTrigger>
+                <TabsTrigger value="local">Đơn hàng đã lưu ({displayOrders.length})</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="supabase" className="mt-6">
+                <OrderTrackingRealtime />
+              </TabsContent>
+
+              <TabsContent value="local" className="mt-6">
+                {displayOrders.length === 0 ? (
+                  <Card>
+                    <CardContent className="py-12 text-center">
+                      <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">Chưa có đơn hàng nào được lưu</p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="space-y-6">
+                    {displayOrders.map((order) => (
+                      <LocalOrderCard key={order.id} order={order} />
+                    ))}
                   </div>
-                  <Button type="submit" className="gap-2 bg-primary hover:bg-primary/90">
-                    <Search className="h-4 w-4" />
-                    Tra cứu
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-
-            {/* Orders List */}
-            {hasSearched && searchedOrders?.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted mb-4">
-                  <Package className="h-10 w-10 text-muted-foreground" />
-                </div>
-                <h2 className="font-semibold text-lg text-foreground mb-2">Không tìm thấy đơn hàng</h2>
-                <p className="text-muted-foreground mb-4">Không có đơn hàng nào với số điện thoại này</p>
-                <Link href="/products">
-                  <Button className="bg-primary hover:bg-primary/90">Mua sắm ngay</Button>
-                </Link>
-              </div>
-            ) : displayOrders.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted mb-4">
-                  <ShoppingBag className="h-10 w-10 text-muted-foreground" />
-                </div>
-                <h2 className="font-semibold text-lg text-foreground mb-2">Chưa có đơn hàng nào</h2>
-                <p className="text-muted-foreground mb-4">Hãy bắt đầu mua sắm và đặt hàng ngay</p>
-                <Link href="/products">
-                  <Button className="bg-primary hover:bg-primary/90">Khám phá sản phẩm</Button>
-                </Link>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-semibold text-lg">{hasSearched ? `Đơn hàng của ${phone}` : "Tất cả đơn hàng"}</h2>
-                  <span className="text-sm text-muted-foreground">{displayOrders.length} đơn hàng</span>
-                </div>
-                {displayOrders.map((order) => (
-                  <OrderCard key={order.id} order={order} />
-                ))}
-              </div>
-            )}
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </main>

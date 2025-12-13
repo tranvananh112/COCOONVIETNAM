@@ -10,6 +10,7 @@ import { TestimonialsSection } from "@/components/testimonials-section"
 import { WhyChooseUs } from "@/components/why-choose-us"
 import { FAQSection } from "@/components/faq-section"
 import { NewsletterSection } from "@/components/newsletter-section"
+import { ChristmasBanner } from "@/components/christmas-banner"
 
 export const metadata: Metadata = {
   title: "Cocoon Vietnam - Mỹ Phẩm Thuần Chay Việt Nam | Skincare Tự Nhiên",
@@ -160,6 +161,7 @@ export default function HomePage() {
       <JsonLd />
       <div className="flex min-h-screen flex-col">
         <Header />
+        <ChristmasBanner />
         <main className="flex-1">
           <HeroSection />
           <FeaturedProducts />

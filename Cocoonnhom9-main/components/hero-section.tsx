@@ -9,7 +9,7 @@ export function HeroSection() {
       className="relative overflow-hidden bg-gradient-to-b from-secondary to-background"
       aria-label="Giới thiệu Cocoon"
     >
-      <div className="container mx-auto px-4 py-16 md:py-24">
+      <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="grid gap-12 md:grid-cols-2 items-center">
           {/* Content */}
           <article className="space-y-6 text-center md:text-left">

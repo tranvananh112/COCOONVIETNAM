@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  experimental: {
+    turbo: {
+      root: process.cwd(),
+    },
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -16,7 +24,6 @@ const nextConfig = {
       },
     ],
   },
-
 }
 
 export default nextConfig

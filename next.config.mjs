@@ -4,9 +4,7 @@ const nextConfig = {
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
   experimental: {
-    turbo: {
-      root: '.',
-    },
+    // turbopack configuration removed for compatibility
   },
   typescript: {
     ignoreBuildErrors: true,

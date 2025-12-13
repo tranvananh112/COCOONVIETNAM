@@ -1,30 +1,171 @@
-# Greeting
+# 🌿 Cocoon Vietnam - Website Mỹ Phẩm Thuần Chay
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+Website thương mại điện tử cho thương hiệu mỹ phẩm thuần chay Cocoon Vietnam với tích hợp Supabase real-time.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/tva1/v0-greeting-p2)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/ded5Ng2vPXr)
+## 🚀 Công nghệ sử dụng
 
-## Overview
+- **Next.js 16** - React Framework với App Router
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Supabase** - Database & Real-time
+- **Zustand** - State Management
+- **Radix UI** - UI Components
+- **SWR** - Data fetching & caching
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## ✨ Tính năng chính
 
-## Deployment
+### Khách hàng
+- ✅ Xem danh sách sản phẩm từ Supabase
+- ✅ Thêm vào giỏ hàng
+- ✅ Thanh toán (COD / MoMo QR)
+- ✅ Theo dõi đơn hàng bằng SĐT
+- ✅ Responsive design
 
-Your project is live at:
+### Admin
+- ✅ Dashboard real-time (auto refresh 10s)
+- ✅ Quản lý đơn hàng
+- ✅ Cập nhật trạng thái đơn hàng
+- ✅ Thống kê khách truy cập
+- ✅ Analytics (devices, browsers, locations)
+- ✅ Xem số người đang online
 
-**[https://vercel.com/tva1/v0-greeting-p2](https://vercel.com/tva1/v0-greeting-p2)**
+## 📦 Cài đặt Local
 
-## Build your app
+```bash
+# Clone repository
+git clone https://github.com/tranvananh112/nhom9cocoonvietnam.git
+cd nhom9cocoonvietnam
 
-Continue building your app on:
+# Cài đặt dependencies
+npm install
 
-**[https://v0.app/chat/ded5Ng2vPXr](https://v0.app/chat/ded5Ng2vPXr)**
+# Tạo file .env.local
+cp .env.example .env.local
+# Thêm Supabase credentials vào .env.local
 
-## How It Works
+# Chạy development server
+npm run dev
+```
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Truy cập: http://localhost:3000
+
+## 🗄️ Setup Supabase
+
+**Bước 1:** Tạo tables trong Supabase
+- Xem hướng dẫn chi tiết: [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
+- Chạy các SQL scripts để tạo tables
+
+**Bước 2:** Lấy credentials
+1. Vào Supabase Dashboard
+2. Settings → API
+3. Copy `URL` và `anon public key`
+
+**Bước 3:** Thêm vào `.env.local`
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
+
+## 🌐 Deploy lên Vercel
+
+### Bước 1: Push code lên GitHub
+```bash
+git push origin main
+```
+
+### Bước 2: Import vào Vercel
+1. Vào https://vercel.com/new
+2. Import repository: `tranvananh112/nhom9cocoonvietnam`
+3. Framework: Next.js (tự động phát hiện)
+
+### Bước 3: Thêm Environment Variables
+**QUAN TRỌNG!** Thêm 2 biến sau:
+```
+NEXT_PUBLIC_SUPABASE_URL = https://yggcqzykpgxvuztdbsoz.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlnZ2NxenlrcGd4dnV6dGRic296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ5MTU0NjAsImV4cCI6MjA4MDQ5MTQ2MH0.l7lzB6-y6cpgYcovDfRqamnQgUmKkJcoyA2-FBPbjBo
+```
+
+### Bước 4: Deploy
+Click "Deploy" và đợi 2-3 phút
+
+## 🧪 Test & Debug
+
+### Test kết nối Supabase
+Truy cập: `https://your-domain.vercel.app/test-connection`
+
+Trang này sẽ kiểm tra:
+- Environment variables
+- Kết nối database
+- Khả năng tạo đơn hàng
+
+### Nếu có lỗi
+Xem hướng dẫn debug chi tiết: [DEBUG_GUIDE.md](./DEBUG_GUIDE.md)
+
+### Kiểm tra dữ liệu
+Xem hướng dẫn: [CHECK_DATA.md](./CHECK_DATA.md)
+
+## 📱 Scripts
+
+```bash
+npm run dev      # Development server (http://localhost:3000)
+npm run build    # Build production
+npm run start    # Production server
+npm run lint     # Lint code
+node test-supabase.js  # Test Supabase connection
+```
+
+## 📂 Cấu trúc Project
+
+```
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Trang chủ
+│   ├── products/          # Trang sản phẩm
+│   ├── cart/              # Giỏ hàng
+│   ├── checkout/          # Thanh toán
+│   ├── orders/            # Theo dõi đơn hàng
+│   ├── admin/             # Admin dashboard
+│   └── test-connection/   # Test Supabase
+├── components/            # React components
+├── lib/                   # Utilities & stores
+│   ├── supabase/         # Supabase clients
+│   ├── supabase-orders.ts # Order functions
+│   └── supabase-analytics.ts # Analytics
+├── scripts/              # SQL scripts
+└── public/               # Static files
+```
+
+## 🔗 Links
+
+- **Production**: https://nhom9cocoonvietnam.vercel.app
+- **GitHub**: https://github.com/tranvananh112/nhom9cocoonvietnam
+- **Admin**: https://nhom9cocoonvietnam.vercel.app/admin
+- **Test**: https://nhom9cocoonvietnam.vercel.app/test-connection
+
+## 📚 Tài liệu
+
+- [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) - Hướng dẫn setup database
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Hướng dẫn deploy chi tiết
+- [DEBUG_GUIDE.md](./DEBUG_GUIDE.md) - Hướng dẫn debug
+- [CHECK_DATA.md](./CHECK_DATA.md) - Kiểm tra dữ liệu
+
+## 🆘 Troubleshooting
+
+**Đơn hàng không lưu vào Supabase?**
+1. Kiểm tra Environment Variables trên Vercel
+2. Chạy `/test-connection` để kiểm tra
+3. Xem [DEBUG_GUIDE.md](./DEBUG_GUIDE.md)
+
+**Admin không thấy đơn hàng?**
+1. Kiểm tra Supabase có tables chưa
+2. Xem Console log có lỗi không
+3. Refresh trang admin (auto refresh 10s)
+
+## 👥 Nhóm phát triển
+
+Nhóm 9 - Cocoon Vietnam
+
+---
+
+Made with ❤️ using Next.js & Supabase
+
+**Note**: Ensure Environment Variables are set in Vercel!
